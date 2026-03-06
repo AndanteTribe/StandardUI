@@ -1,0 +1,18 @@
+{
+    "name": "StandardUI.Editor",
+    "rootNamespace": "StandardUI.Editor",
+    "references": [
+        "GUID:8a7bd609fbab5cd41bb449021b0ecc30"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
