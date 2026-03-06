@@ -38,7 +38,7 @@ namespace StandardUI
 
         public TouchSurface(EventSystem? eventSystem = null)
         {
-            _eventSystem = eventSystem ?? EventSystem.current;
+            _eventSystem = eventSystem == null ? EventSystem.current : eventSystem;
         }
 
         /// <summary>

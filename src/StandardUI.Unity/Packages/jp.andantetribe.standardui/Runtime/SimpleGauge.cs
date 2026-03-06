@@ -33,7 +33,7 @@ namespace StandardUI
                     (int)RectTransform.Edge.Right => new Vector4(0, 0, rectTransform.rect.width * (1 - _value), 0),
                     (int)RectTransform.Edge.Top => new Vector4(0, 0, 0, rectTransform.rect.height * (1 - _value)),
                     (int)RectTransform.Edge.Bottom => new Vector4(0, rectTransform.rect.height * (1 - _value), 0, 0),
-                    _ => throw new ArgumentOutOfRangeException(nameof(Value))
+                    _ => throw new ArgumentOutOfRangeException(nameof(_mode), _mode, null)
                 };
             }
         }
