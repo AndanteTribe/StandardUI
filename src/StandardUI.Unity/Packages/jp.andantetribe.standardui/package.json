@@ -1,0 +1,15 @@
+{
+  "name": "jp.andantetribe.standardui",
+  "displayName": "Standard UI",
+  "author": {
+    "name": "AndanteTribe",
+    "url": "https://github.com/AndanteTribe"
+  },
+  "version": "0.1.0",
+  "unity": "2021.3",
+  "description": "Extra uGUI components and effects for Unity.",
+  "license": "MIT",
+  "dependencies": {
+    "com.unity.ugui": "1.0.0"
+  }
+}
