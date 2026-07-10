@@ -1,6 +1,9 @@
 #nullable enable
 
 using System;
+#if UNITY_EDITOR
+using System.Diagnostics.CodeAnalysis;
+#endif
 using UnityEngine;
 #if UNITY_EDITOR
 using Screen = UnityEngine.Device.Screen;
@@ -20,6 +23,7 @@ namespace StandardUI
         private void OnEnable() => Adjust();
 
 #if UNITY_EDITOR
+        [ExcludeFromCodeCoverage]
         private void Reset() => Adjust();
 #endif
 
