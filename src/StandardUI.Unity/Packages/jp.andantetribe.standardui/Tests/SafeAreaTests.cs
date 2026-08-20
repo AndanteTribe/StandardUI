@@ -31,7 +31,7 @@ namespace StandardUI.Tests
         }
 
         [Test]
-        public void Adjust_ResetsOffsetsToZero()
+        public void AdjustResetsOffsetsToZero()
         {
             _rectTransform.offsetMin = new Vector2(10f, 20f);
             _rectTransform.offsetMax = new Vector2(-30f, -40f);
@@ -43,18 +43,39 @@ namespace StandardUI.Tests
         }
 
         [Test]
-        public void Adjust_AppliesCurrentScreenSafeAreaToAnchors()
+        public void AdjustAppliesCurrentScreenSafeAreaToAnchors()
         {
             var screenSize = new Vector2(Screen.width, Screen.height);
             var safeArea = Screen.safeArea;
 
             var expectedAnchorMin = safeArea.min / screenSize;
             var expectedAnchorMax = safeArea.max / screenSize;
+            _rectTransform.anchorMin = new Vector2(-1f, -1f);
+            _rectTransform.anchorMax = new Vector2(2f, 2f);
 
             _safeArea.Adjust();
 
             AssertVector2(expectedAnchorMin, _rectTransform.anchorMin);
             AssertVector2(expectedAnchorMax, _rectTransform.anchorMax);
+        }
+
+        [Test]
+        public void EnablingComponentAdjustsTheRectTransform()
+        {
+            _safeArea.enabled = false;
+            _rectTransform.offsetMin = new Vector2(10f, 20f);
+            _rectTransform.offsetMax = new Vector2(-30f, -40f);
+            _rectTransform.anchorMin = Vector2.zero;
+            _rectTransform.anchorMax = Vector2.zero;
+
+            _safeArea.enabled = true;
+
+            var screenSize = new Vector2(Screen.width, Screen.height);
+            var safeArea = Screen.safeArea;
+            AssertVector2(Vector2.zero, _rectTransform.offsetMin);
+            AssertVector2(Vector2.zero, _rectTransform.offsetMax);
+            AssertVector2(safeArea.min / screenSize, _rectTransform.anchorMin);
+            AssertVector2(safeArea.max / screenSize, _rectTransform.anchorMax);
         }
 
         private static void AssertVector2(Vector2 expected, Vector2 actual)
