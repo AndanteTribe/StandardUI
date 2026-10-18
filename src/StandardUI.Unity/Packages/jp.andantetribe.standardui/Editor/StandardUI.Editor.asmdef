@@ -2,7 +2,9 @@
     "name": "StandardUI.Editor",
     "rootNamespace": "StandardUI.Editor",
     "references": [
-        "GUID:8a7bd609fbab5cd41bb449021b0ecc30"
+        "GUID:8a7bd609fbab5cd41bb449021b0ecc30",
+        "UnityEngine.UI",
+        "UnityEditor.UI"
     ],
     "includePlatforms": [
         "Editor"
