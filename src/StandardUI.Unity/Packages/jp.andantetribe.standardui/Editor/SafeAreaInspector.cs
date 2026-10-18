@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 namespace StandardUI.Editor
 {
+#pragma warning disable CS0618
     [CustomEditor(typeof(SafeArea))]
     public class SafeAreaInspector : UnityEditor.Editor
     {
@@ -19,4 +20,5 @@ namespace StandardUI.Editor
             return root;
         }
     }
+#pragma warning restore CS0618
 }

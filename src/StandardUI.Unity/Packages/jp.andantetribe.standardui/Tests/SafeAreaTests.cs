@@ -10,6 +10,7 @@ using Screen = UnityEngine.Screen;
 
 namespace StandardUI.Tests
 {
+#pragma warning disable CS0618
     public sealed class SafeAreaTests
     {
         private GameObject _gameObject = null!;
@@ -84,4 +85,5 @@ namespace StandardUI.Tests
             Assert.That(actual.y, Is.EqualTo(expected.y).Within(0.0001f));
         }
     }
+#pragma warning restore CS0618
 }

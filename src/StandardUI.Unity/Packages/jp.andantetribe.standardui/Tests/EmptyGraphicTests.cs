@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 namespace StandardUI.Tests
 {
+#pragma warning disable CS0618
     public sealed class EmptyGraphicTests
     {
         private GameObject _root = null!;
@@ -213,4 +214,5 @@ namespace StandardUI.Tests
             return false;
         }
     }
+#pragma warning restore CS0618
 }
