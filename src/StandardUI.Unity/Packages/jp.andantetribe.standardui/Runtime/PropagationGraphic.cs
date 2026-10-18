@@ -12,9 +12,7 @@ namespace StandardUI
     /// <remarks>
     /// Use this when a parent selectable controls the visual state of multiple child graphics.
     /// </remarks>
-#pragma warning disable CS0618
-    public sealed class PropagationGraphic : EmptyGraphic
-#pragma warning restore CS0618
+    public sealed class PropagationGraphic : RaycastReceiver
     {
         [SerializeField, Tooltip("Child graphics to propagate color transitions to.")]
         private Graphic[] _graphics = Array.Empty<Graphic>();

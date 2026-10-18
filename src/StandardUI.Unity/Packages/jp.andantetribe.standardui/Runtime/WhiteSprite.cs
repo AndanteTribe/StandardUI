@@ -1,13 +1,4 @@
 #nullable enable
-#if UNITY_6000_6_OR_NEWER
-#if UNITY_EDITOR || UNITY_ENABLE_CHECKS
-#define ENABLE_DEBUG
-#endif
-#else
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-#define ENABLE_DEBUG
-#endif
-#endif
 
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
@@ -72,7 +63,7 @@ namespace StandardUI
                 image.sprite = SharedSprite;
                 return;
             }
-#if ENABLE_DEBUG
+#if UNITY_EDITOR || UNITY_ENABLE_CHECKS
             if (image.sprite != s_whiteSprite)
             {
                 Debug.LogWarning("WhiteSprite component on " + gameObject.name + " is not needed because the Image already has a sprite assigned.", this);

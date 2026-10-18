@@ -11,17 +11,25 @@
 
 | コンポーネント | 説明 |
 |--------------|------|
-| `EmptyGraphic` | 描画を行わない Graphic コンポーネント。マスクのベース、全画面透明オーバーレイ、ボタンの透明なヒット領域として使用できます。uGUI 2.5.0 以降では非推奨です。 |
 | `PropagationGraphic` | 親の `Selectable` のカラートランジションを子の `Graphic` コンポーネントに伝播します。 |
-| `SafeArea` | デバイスのセーフエリアに合わせて `RectTransform` を調整します。uGUI 2.6.0 以降では非推奨です。 |
-| `SimpleGauge` | `RectMask2D` を利用したシンプルなゲージ表示コンポーネントです。非推奨です。 |
 | `WhiteSprite` | Sprite 未指定の Image に共有の白 Sprite を補充するヘルパーです。 |
 | `SkewMeshEffect` | uGUI のメッシュを斜めに傾ける `BaseMeshEffect` です。 |
 | `TouchSurface` | uGUI の入力を一時的にブロックするなど、UI 入力を制御します。 |
 
 ## 要件
-- Unity 2021.3 以上
-- [com.unity.ugui](https://docs.unity3d.com/Manual/com.unity.ugui.html) 1.0.0 以上
+- Unity 6000.6 以上
+- [com.unity.ugui](https://docs.unity3d.com/Manual/com.unity.ugui.html) 2.6.0 以上
+
+## 2.0.0 への移行
+非推奨コンポーネントを削除しました。アップグレード前に置き換えてください。既存のシーン・Prefab のコンポーネントは自動移行されません。
+
+| 削除したコンポーネント | 代替 |
+|----------------------|------|
+| `StandardUI.EmptyGraphic` | `UnityEngine.UI.RaycastReceiver` |
+| `StandardUI.SafeArea` | `UnityEngine.UI.SafeArea` |
+| `StandardUI.SimpleGauge` | Type を `Filled` にした Image。`Value` の代わりに `Image.fillAmount` を使用します。共有の白 Sprite が必要なら `WhiteSprite` を追加してください。 |
+
+`PropagationGraphic` の継承元を `UnityEngine.UI.RaycastReceiver` に変更しました。
 
 ## インストール
 `Window > Package Manager` から Package Manager ウィンドウを開き、`[+] > Add package from git URL` を選択して以下の URL を入力します。
@@ -32,43 +40,12 @@ https://github.com/AndanteTribe/StandardUI.git?path=src/StandardUI.Unity/Package
 
 ## クイックスタート
 
-### EmptyGraphic
-`EmptyGraphic` コンポーネントを `GameObject` に追加することで、描画しない透明な UI 要素を作成できます。ボタンのヒット領域やマスクのベースとして最適です。
-
-uGUI 2.5.0 以降では非推奨です。代わりに `UnityEngine.UI.RaycastReceiver` を使用してください。
-
 ### PropagationGraphic
 親の `Selectable` に `PropagationGraphic` をアタッチすると、そのカラートランジションを子の `Graphic` コンポーネントに伝播できます。
 
 ```csharp
 // Editor の Reset() で子 Graphic を自動検出するか、
 // Inspector で手動で割り当てることもできます。
-```
-
-### SafeArea
-`SafeArea` コンポーネントを `RectTransform` にアタッチすると、デバイスのセーフエリアに合わせてレイアウトが自動的に調整されます。
-
-uGUI 2.6.0 以降では非推奨です。代わりに `UnityEngine.UI.SafeArea` を使用してください。
-
-### SimpleGauge
-`MaskableGraphic` を持つ `GameObject` に `SimpleGauge` コンポーネントを追加し、`Value` プロパティでゲージの量を制御します。
-
-非推奨です。代わりに Type を `Filled` にした Image の `fillAmount` を操作してください。素材不要なら `WhiteSprite` を追加できます。
-
-```csharp
-using StandardUI;
-using UnityEngine;
-
-public class GaugeSample : MonoBehaviour
-{
-    [SerializeField] private SimpleGauge _gauge;
-
-    private void Update()
-    {
-        // ゲージの量を設定する (0.0 〜 1.0)
-        _gauge.Value = Mathf.PingPong(Time.time * 0.5f, 1f);
-    }
-}
 ```
 
 ### WhiteSprite
@@ -101,30 +78,11 @@ public class TouchSurfaceSample : MonoBehaviour
 
 ## API
 
-### EmptyGraphic
-
-| メンバー | 説明 |
-|--------|------|
-| `SetMaterialDirty()` | 何もしないオーバーライドです。 |
-| `SetVerticesDirty()` | 何もしないオーバーライドです。 |
-
 ### PropagationGraphic
 
 | メンバー | 説明 |
 |--------|------|
 | `CrossFadeColor(Color, float, bool, bool)` | 割り当てられた子 `Graphic` コンポーネントすべてにカラートランジションを伝播します。 |
-
-### SafeArea
-
-| メンバー | 説明 |
-|--------|------|
-| `Adjust()` | 現在のセーフエリアをこの `RectTransform` のアンカーに適用します。 |
-
-### SimpleGauge
-
-| メンバー | 説明 |
-|--------|------|
-| `Value` | ゲージの量 (0.0 〜 1.0) を取得または設定します。設定時に `RectMask2D` のパディングが更新されます。 |
 
 ### SkewMeshEffect
 

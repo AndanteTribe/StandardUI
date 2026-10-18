@@ -9,11 +9,7 @@ namespace StandardUI.Editor
 {
     public static class UICreationMenu
     {
-#if UNITY_6000_6_OR_NEWER
         private const string MenuRoot = "GameObject/UI (Canvas)/";
-#else
-        private const string MenuRoot = "GameObject/UI/";
-#endif
 
         [MenuItem(MenuRoot + "Simple Gauge", false, 2050)]
         public static void CreateSimpleGauge(MenuCommand command)
