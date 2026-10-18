@@ -16,8 +16,14 @@ permissions:
 
 jobs:
   test:
+    name: test (${{ matrix.testMode }})
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' && github.event.label.name == 'request-ci' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        testMode: [playmode, editmode]
     steps:
       # ghasec-ignore: unpinned-action
       - uses: AndanteTribe/Actions/actions/checkout@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
@@ -35,7 +41,7 @@ jobs:
           ./free_disk_space.sh
           rm -f free_disk_space.sh
       # ghasec-ignore: unpinned-action
-      - uses: AndanteTribe/Actions/actions/unity-test-runner@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
+      - uses: AndanteTribe/Actions/actions/unity-test-runner@9739ba060e3e8f69838453e62ab363142cb26eaf # game-ci/unity-test-runner v4.3.1 (pre-CLI)
         id: tests
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -45,20 +51,21 @@ jobs:
           projectPath: src/StandardUI.Unity
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           unityVersion: auto
-          testMode: playmode
+          testMode: ${{ matrix.testMode }}
+          checkName: Test Results (${{ matrix.testMode }})
           coverageOptions: 'generateHtmlReport;generateAdditionalReports;assemblyFilters:+StandardUI,-StandardUI.Tests'
       # ghasec-ignore: unpinned-action
       - uses: AndanteTribe/Actions/actions/upload-artifact@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
         if: always()
         with:
-          name: Test results
+          name: Test results (${{ matrix.testMode }})
           path: ${{ steps.tests.outputs.artifactsPath }}
           retention-days: 2
       # ghasec-ignore: unpinned-action
       - uses: AndanteTribe/Actions/actions/upload-artifact@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
         if: always()
         with:
-          name: Coverage Results
+          name: Coverage Results (${{ matrix.testMode }})
           path: ${{ steps.tests.outputs.coveragePath }}
           retention-days: 2
       - name: Upload Coverage Report

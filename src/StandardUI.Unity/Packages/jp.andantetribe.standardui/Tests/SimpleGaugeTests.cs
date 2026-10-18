@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace StandardUI.Tests
 {
+#pragma warning disable CS0618
     public sealed class SimpleGaugeTests
     {
         private const float GaugeWidth = 200f;
@@ -140,4 +141,5 @@ namespace StandardUI.Tests
             Assert.That(actual.w, Is.EqualTo(expected.w).Within(0.0001f));
         }
     }
+#pragma warning restore CS0618
 }

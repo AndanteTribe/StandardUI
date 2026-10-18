@@ -2,7 +2,8 @@
     "name": "StandardUI.Editor",
     "rootNamespace": "StandardUI.Editor",
     "references": [
-        "GUID:8a7bd609fbab5cd41bb449021b0ecc30"
+        "GUID:8a7bd609fbab5cd41bb449021b0ecc30",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab"
     ],
     "includePlatforms": [
         "Editor"

@@ -11,6 +11,17 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.ugui",
+            "expression": "2.5.0",
+            "define": "UGUI_2_5_OR_GREATER"
+        },
+        {
+            "name": "com.unity.ugui",
+            "expression": "2.6.0",
+            "define": "UGUI_2_6_OR_GREATER"
+        }
+    ],
     "noEngineReferences": false
 }

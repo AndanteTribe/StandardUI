@@ -11,10 +11,11 @@
 
 | コンポーネント | 説明 |
 |--------------|------|
-| `EmptyGraphic` | 描画を行わない Graphic コンポーネント。マスクのベース、全画面透明オーバーレイ、ボタンの透明なヒット領域として使用できます。 |
+| `EmptyGraphic` | 描画を行わない Graphic コンポーネント。マスクのベース、全画面透明オーバーレイ、ボタンの透明なヒット領域として使用できます。uGUI 2.5.0 以降では非推奨です。 |
 | `PropagationGraphic` | 親の `Selectable` のカラートランジションを子の `Graphic` コンポーネントに伝播します。 |
-| `SafeArea` | デバイスのセーフエリアに合わせて `RectTransform` を調整します。 |
-| `SimpleGauge` | `RectMask2D` を利用したシンプルなゲージ表示コンポーネントです。 |
+| `SafeArea` | デバイスのセーフエリアに合わせて `RectTransform` を調整します。uGUI 2.6.0 以降では非推奨です。 |
+| `SimpleGauge` | `RectMask2D` を利用したシンプルなゲージ表示コンポーネントです。非推奨です。 |
+| `WhiteSprite` | Sprite 未指定の Image に共有の白 Sprite を補充するヘルパーです。 |
 | `SkewMeshEffect` | uGUI のメッシュを斜めに傾ける `BaseMeshEffect` です。 |
 | `TouchSurface` | uGUI の入力を一時的にブロックするなど、UI 入力を制御します。 |
 
@@ -34,6 +35,8 @@ https://github.com/AndanteTribe/StandardUI.git?path=src/StandardUI.Unity/Package
 ### EmptyGraphic
 `EmptyGraphic` コンポーネントを `GameObject` に追加することで、描画しない透明な UI 要素を作成できます。ボタンのヒット領域やマスクのベースとして最適です。
 
+uGUI 2.5.0 以降では非推奨です。代わりに `UnityEngine.UI.RaycastReceiver` を使用してください。
+
 ### PropagationGraphic
 親の `Selectable` に `PropagationGraphic` をアタッチすると、そのカラートランジションを子の `Graphic` コンポーネントに伝播できます。
 
@@ -45,8 +48,12 @@ https://github.com/AndanteTribe/StandardUI.git?path=src/StandardUI.Unity/Package
 ### SafeArea
 `SafeArea` コンポーネントを `RectTransform` にアタッチすると、デバイスのセーフエリアに合わせてレイアウトが自動的に調整されます。
 
+uGUI 2.6.0 以降では非推奨です。代わりに `UnityEngine.UI.SafeArea` を使用してください。
+
 ### SimpleGauge
 `MaskableGraphic` を持つ `GameObject` に `SimpleGauge` コンポーネントを追加し、`Value` プロパティでゲージの量を制御します。
+
+非推奨です。代わりに Type を `Filled` にした Image の `fillAmount` を操作してください。素材不要なら `WhiteSprite` を追加できます。
 
 ```csharp
 using StandardUI;
@@ -63,6 +70,9 @@ public class GaugeSample : MonoBehaviour
     }
 }
 ```
+
+### WhiteSprite
+Image に `WhiteSprite` を追加すると、Source Image が空の場合だけ共有の白 Sprite を補充します。編集・プレイ両モードの有効化時に確認し、既存 Sprite は保持します。Image は標準 Inspector で編集でき、ヘルパー削除時には共有の白 Sprite だけを外します。Hierarchy の UI > Simple Gauge（Unity 6.6 以降は UI (Canvas)）から、WhiteSprite と水平 Fill Amount を設定済みの Image を作成できます。
 
 ### SkewMeshEffect
 `Image` に `SkewMeshEffect` コンポーネントを追加すると、メッシュを斜めに傾けられます。斜めにカットされたゲージフィルやスタイリッシュな UI 要素の作成に活用できます。

@@ -6,7 +6,9 @@ using UnityEngine.UIElements;
 
 namespace StandardUI.Editor
 {
+#pragma warning disable CS0618
     [CustomEditor(typeof(SimpleGauge))]
+#pragma warning restore CS0618
     public class SimpleGaugeInspector : UnityEditor.Editor
     {
         /// <inheritdoc/>
