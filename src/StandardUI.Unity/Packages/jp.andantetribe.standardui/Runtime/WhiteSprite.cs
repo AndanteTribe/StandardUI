@@ -72,7 +72,10 @@ namespace StandardUI
                 return;
             }
 #if ENABLE_DEBUG
-            Debug.LogWarning("WhiteSprite component on " + gameObject.name + " is not needed because the Image already has a sprite assigned.", this);
+            if (image.sprite != s_whiteSprite)
+            {
+                Debug.LogWarning("WhiteSprite component on " + gameObject.name + " is not needed because the Image already has a sprite assigned.", this);
+            }
 #endif
         }
 
