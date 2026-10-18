@@ -1,5 +1,15 @@
 #nullable enable
+#if UNITY_6000_6_OR_NEWER
+#if UNITY_EDITOR || UNITY_ENABLE_CHECKS
+#define ENABLE_DEBUG
+#endif
+#else
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#define ENABLE_DEBUG
+#endif
+#endif
 
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -60,7 +70,14 @@ namespace StandardUI
             if (image.sprite == null)
             {
                 image.sprite = SharedSprite;
+                return;
             }
+#if ENABLE_DEBUG
+            if (image.sprite != s_whiteSprite)
+            {
+                Debug.LogWarning("WhiteSprite component on " + gameObject.name + " is not needed because the Image already has a sprite assigned.", this);
+            }
+#endif
         }
 
 #if UNITY_EDITOR
@@ -72,11 +89,13 @@ namespace StandardUI
 
         // Only the transient Sprite is owned here, never Texture2D.whiteTexture.
         [UnityEditor.InitializeOnLoadMethod]
+        [ExcludeFromCodeCoverage]
         private static void RegisterSpriteCleanup()
         {
             UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += ClearWhiteSprite;
             UnityEditor.EditorApplication.quitting += ClearWhiteSprite;
 
+            [ExcludeFromCodeCoverage]
             static void ClearWhiteSprite()
             {
                 if (s_whiteSprite != null)

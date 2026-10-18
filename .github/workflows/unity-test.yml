@@ -21,7 +21,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && github.event.label.name == 'request-ci' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     strategy:
       fail-fast: false
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         testMode: [playmode, editmode]
     steps:
