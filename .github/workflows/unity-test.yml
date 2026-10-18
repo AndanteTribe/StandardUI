@@ -16,8 +16,14 @@ permissions:
 
 jobs:
   test:
+    name: test (${{ matrix.testMode }})
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' && github.event.label.name == 'request-ci' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        testMode: [playmode, editmode]
     steps:
       # ghasec-ignore: unpinned-action
       - uses: AndanteTribe/Actions/actions/checkout@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
@@ -45,20 +51,21 @@ jobs:
           projectPath: src/StandardUI.Unity
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           unityVersion: auto
-          testMode: playmode
+          testMode: ${{ matrix.testMode }}
+          checkName: Test Results (${{ matrix.testMode }})
           coverageOptions: 'generateHtmlReport;generateAdditionalReports;assemblyFilters:+StandardUI,-StandardUI.Tests'
       # ghasec-ignore: unpinned-action
       - uses: AndanteTribe/Actions/actions/upload-artifact@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
         if: always()
         with:
-          name: Test results
+          name: Test results (${{ matrix.testMode }})
           path: ${{ steps.tests.outputs.artifactsPath }}
           retention-days: 2
       # ghasec-ignore: unpinned-action
       - uses: AndanteTribe/Actions/actions/upload-artifact@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
         if: always()
         with:
-          name: Coverage Results
+          name: Coverage Results (${{ matrix.testMode }})
           path: ${{ steps.tests.outputs.coveragePath }}
           retention-days: 2
       - name: Upload Coverage Report
