@@ -1,6 +1,9 @@
 #nullable enable
 
 using System.Collections;
+#if !UNITY_2022_2_OR_NEWER
+using System.Reflection;
+#endif
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -186,9 +189,31 @@ namespace StandardUI.Tests
             yield return null;
             _image.fillAmount = 0.25f;
             Canvas.ForceUpdateCanvases();
+#if UNITY_2022_2_OR_NEWER
             var mesh = _image.canvasRenderer.GetMesh();
             Assert.That(mesh.vertexCount, Is.EqualTo(4));
             Assert.That(mesh.bounds.size.x, Is.EqualTo(50).Within(0.01f));
+#else
+            var mesh = new Mesh();
+            try
+            {
+                using var vertices = new UnityEngine.UI.VertexHelper();
+                var populateMesh = typeof(UnityEngine.UI.Image).GetMethod(
+                    "OnPopulateMesh",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(UnityEngine.UI.VertexHelper) },
+                    null)!;
+                populateMesh.Invoke(_image, new object[] { vertices });
+                vertices.FillMesh(mesh);
+                Assert.That(mesh.vertexCount, Is.EqualTo(4));
+                Assert.That(mesh.bounds.size.x, Is.EqualTo(50).Within(0.01f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(mesh);
+            }
+#endif
         }
     }
 }
