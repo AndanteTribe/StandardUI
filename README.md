@@ -11,10 +11,11 @@ English | [日本語](README_JA.md)
 
 | Component | Description |
 |-----------|-------------|
-| `EmptyGraphic` | A no-op Graphic component. Useful as a mask base, full-screen transparent overlay, or a transparent hit area for buttons. |
+| `EmptyGraphic` | A no-op Graphic component. Useful as a mask base, full-screen transparent overlay, or a transparent hit area for buttons. Deprecated with uGUI 2.5.0 or newer. |
 | `PropagationGraphic` | Forwards `Selectable` color transitions to child `Graphic` components. |
-| `SafeArea` | Adjusts a `RectTransform` to match the device safe area. |
-| `SimpleGauge` | A simple and clean gauge display built on top of `RectMask2D`. |
+| `SafeArea` | Adjusts a `RectTransform` to match the device safe area. Deprecated with uGUI 2.6.0 or newer. |
+| `SimpleGauge` | A simple and clean gauge display built on top of `RectMask2D`. Deprecated. |
+| `WhiteSprite` | Assigns a shared white Sprite to an Image and locks Source Image in the Inspector. |
 | `SkewMeshEffect` | A `BaseMeshEffect` that skews a uGUI mesh diagonally. |
 | `TouchSurface` | Controls UI input, such as temporarily blocking all uGUI interaction. |
 
@@ -34,6 +35,8 @@ https://github.com/AndanteTribe/StandardUI.git?path=src/StandardUI.Unity/Package
 ### EmptyGraphic
 Add the `EmptyGraphic` component to a `GameObject` to create a transparent, non-rendering UI element — ideal for button hit areas or mask bases.
 
+Deprecated with uGUI 2.5.0 or newer; use `UnityEngine.UI.RaycastReceiver` instead.
+
 ### PropagationGraphic
 Attach `PropagationGraphic` to a parent `Selectable` to propagate its color transitions to child `Graphic` components.
 
@@ -45,8 +48,12 @@ Attach `PropagationGraphic` to a parent `Selectable` to propagate its color tran
 ### SafeArea
 Attach the `SafeArea` component to a `RectTransform` to automatically fit the layout to the device's safe area.
 
+Deprecated with uGUI 2.6.0 or newer; use `UnityEngine.UI.SafeArea` instead.
+
 ### SimpleGauge
 Add the `SimpleGauge` component to a `GameObject` that has a `MaskableGraphic` and control the fill via the `Value` property.
+
+Deprecated; use an Image with Type `Filled` and control `Image.fillAmount` instead. Add `WhiteSprite` if no Sprite asset is needed.
 
 ```csharp
 using StandardUI;
@@ -63,6 +70,9 @@ public class GaugeSample : MonoBehaviour
     }
 }
 ```
+
+### WhiteSprite
+Clear an Image's Source Image, then attach `WhiteSprite` to assign a shared white Sprite and lock Source Image in the Inspector. Other Image settings remain editable; removing the helper clears its white Sprite. Hierarchy > UI > Simple Gauge (UI (Canvas) in Unity 6.6+) creates an Image with WhiteSprite and horizontal Fill Amount configured.
 
 ### SkewMeshEffect
 Add the `SkewMeshEffect` component to an `Image` to apply a diagonal skew to the mesh — useful for creating slanted gauge fills or stylised UI elements.
