@@ -15,7 +15,7 @@ English | [日本語](README_JA.md)
 | `PropagationGraphic` | Forwards `Selectable` color transitions to child `Graphic` components. |
 | `SafeArea` | Adjusts a `RectTransform` to match the device safe area. Deprecated with uGUI 2.6.0 or newer. |
 | `SimpleGauge` | A simple and clean gauge display built on top of `RectMask2D`. Deprecated. |
-| `WhiteSprite` | Assigns a shared white Sprite to an Image and locks Source Image in the Inspector. |
+| `WhiteSprite` | Supplies a shared white Sprite to an Image when no Sprite is assigned. |
 | `SkewMeshEffect` | A `BaseMeshEffect` that skews a uGUI mesh diagonally. |
 | `TouchSurface` | Controls UI input, such as temporarily blocking all uGUI interaction. |
 
@@ -72,7 +72,7 @@ public class GaugeSample : MonoBehaviour
 ```
 
 ### WhiteSprite
-Clear an Image's Source Image, then attach `WhiteSprite` to assign a shared white Sprite and lock Source Image in the Inspector. Other Image settings remain editable; removing the helper clears its white Sprite. Hierarchy > UI > Simple Gauge (UI (Canvas) in Unity 6.6+) creates an Image with WhiteSprite and horizontal Fill Amount configured.
+Attach `WhiteSprite` to an Image to supply a shared white Sprite when Source Image is empty. This is checked on enable in both Edit Mode and Play Mode; existing Sprites are preserved and the standard Image Inspector remains editable. Removing the helper clears only its shared white Sprite. Hierarchy > UI > Simple Gauge (UI (Canvas) in Unity 6.6+) creates an Image with WhiteSprite and horizontal Fill Amount configured.
 
 ### SkewMeshEffect
 Add the `SkewMeshEffect` component to an `Image` to apply a diagonal skew to the mesh — useful for creating slanted gauge fills or stylised UI elements.

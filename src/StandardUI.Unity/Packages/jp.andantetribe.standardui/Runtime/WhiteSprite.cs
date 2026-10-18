@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace StandardUI
 {
     /// <summary>
-    /// Assigns a shared white sprite to an Image without changing its other settings.
+    /// Supplies a shared white sprite when an Image has no sprite assigned.
     /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
@@ -36,13 +36,10 @@ namespace StandardUI
         }
 
         /// <inheritdoc/>
-        protected override void Awake()
+        protected override void OnEnable()
         {
-            base.Awake();
-            if (Application.IsPlaying(gameObject))
-            {
-                Image.sprite = SharedSprite;
-            }
+            base.OnEnable();
+            SetSpriteIfMissing();
         }
 
         /// <inheritdoc/>
@@ -57,27 +54,20 @@ namespace StandardUI
             base.OnDestroy();
         }
 
+        private void SetSpriteIfMissing()
+        {
+            var image = Image;
+            if (image.sprite == null)
+            {
+                image.sprite = SharedSprite;
+            }
+        }
+
 #if UNITY_EDITOR
         protected override void Reset()
         {
             base.Reset();
-            var image = Image;
-            if (image.sprite != null && image.sprite != s_whiteSprite)
-            {
-                Debug.LogError("WhiteSprite cannot be added to an Image with an existing Source Image. Clear Source Image first.", this);
-                // Unity has no pre-AddComponent cancellation hook. Remove only the rejected
-                // helper after AddComponent finishes; do not overwrite the existing sprite.
-                UnityEditor.EditorApplication.delayCall += () =>
-                {
-                    if (this != null)
-                    {
-                        DestroyImmediate(this);
-                    }
-                };
-                return;
-            }
-
-            Image.sprite = SharedSprite;
+            SetSpriteIfMissing();
         }
 
         // Only the transient Sprite is owned here, never Texture2D.whiteTexture.

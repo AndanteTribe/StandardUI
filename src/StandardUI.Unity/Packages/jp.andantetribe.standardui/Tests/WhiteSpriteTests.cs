@@ -29,16 +29,16 @@ namespace StandardUI.Tests
         }
 
         [Test]
-        public void RuntimeAddComponentAssignsWhiteWithoutKeepingExistingSprite()
+        public void AddingHelperPreservesExistingSprite()
         {
             var original = Sprite.Create(Texture2D.whiteTexture, new Rect(0, 0, 1, 1), Vector2.zero);
             try
             {
                 _image.sprite = original;
                 var helper = _image.gameObject.AddComponent<WhiteSprite>();
-                Assert.That(_image.sprite, Is.Not.SameAs(original));
+                Assert.That(_image.sprite, Is.SameAs(original));
                 Object.DestroyImmediate(helper);
-                Assert.That(_image.sprite, Is.Null);
+                Assert.That(_image.sprite, Is.SameAs(original));
             }
             finally
             {
@@ -122,15 +122,33 @@ namespace StandardUI.Tests
         }
 
         [Test]
-        public void ReenablingDoesNotReassignWhiteSprite()
+        public void ReenablingReassignsMissingWhiteSprite()
         {
             var helper = _image.gameObject.AddComponent<WhiteSprite>();
             helper.enabled = false;
             _image.sprite = null;
             helper.enabled = true;
-            Assert.That(_image.sprite, Is.Null);
+            Assert.That(_image.sprite, Is.Not.Null);
             helper.enabled = false;
-            Assert.That(_image.sprite, Is.Null);
+            Assert.That(_image.sprite, Is.Not.Null);
+        }
+
+        [Test]
+        public void ReenablingPreservesCustomSprite()
+        {
+            var helper = _image.gameObject.AddComponent<WhiteSprite>();
+            var custom = Sprite.Create(Texture2D.whiteTexture, new Rect(0, 0, 1, 1), Vector2.zero);
+            try
+            {
+                helper.enabled = false;
+                _image.sprite = custom;
+                helper.enabled = true;
+                Assert.That(_image.sprite, Is.SameAs(custom));
+            }
+            finally
+            {
+                Object.DestroyImmediate(custom);
+            }
         }
 
         [Test]
