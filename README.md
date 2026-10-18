@@ -11,17 +11,25 @@ English | [日本語](README_JA.md)
 
 | Component | Description |
 |-----------|-------------|
-| `EmptyGraphic` | A no-op Graphic component. Useful as a mask base, full-screen transparent overlay, or a transparent hit area for buttons. Deprecated with uGUI 2.5.0 or newer. |
 | `PropagationGraphic` | Forwards `Selectable` color transitions to child `Graphic` components. |
-| `SafeArea` | Adjusts a `RectTransform` to match the device safe area. Deprecated with uGUI 2.6.0 or newer. |
-| `SimpleGauge` | A simple and clean gauge display built on top of `RectMask2D`. Deprecated. |
 | `WhiteSprite` | Supplies a shared white Sprite to an Image when no Sprite is assigned. |
 | `SkewMeshEffect` | A `BaseMeshEffect` that skews a uGUI mesh diagonally. |
 | `TouchSurface` | Controls UI input, such as temporarily blocking all uGUI interaction. |
 
 ## Requirements
-- Unity 2021.3 or later
-- [com.unity.ugui](https://docs.unity3d.com/Manual/com.unity.ugui.html) 1.0.0 or later
+- Unity 6000.6 or later
+- [com.unity.ugui](https://docs.unity3d.com/Manual/com.unity.ugui.html) 2.6.0 or later
+
+## Upgrading to 2.0.0
+The deprecated components have been removed. Replace them before upgrading; existing scene and prefab components are not migrated automatically.
+
+| Removed component | Replacement |
+|-------------------|-------------|
+| `StandardUI.EmptyGraphic` | `UnityEngine.UI.RaycastReceiver` |
+| `StandardUI.SafeArea` | `UnityEngine.UI.SafeArea` |
+| `StandardUI.SimpleGauge` | An Image with Type `Filled`; use `Image.fillAmount` instead of `Value`. Add `WhiteSprite` for a shared white Sprite. |
+
+`PropagationGraphic` now derives from `UnityEngine.UI.RaycastReceiver`.
 
 ## Installation
 Open `Window > Package Manager`, select `[+] > Add package from git URL`, and enter the following URL:
@@ -32,43 +40,12 @@ https://github.com/AndanteTribe/StandardUI.git?path=src/StandardUI.Unity/Package
 
 ## Quick Start
 
-### EmptyGraphic
-Add the `EmptyGraphic` component to a `GameObject` to create a transparent, non-rendering UI element — ideal for button hit areas or mask bases.
-
-Deprecated with uGUI 2.5.0 or newer; use `UnityEngine.UI.RaycastReceiver` instead.
-
 ### PropagationGraphic
 Attach `PropagationGraphic` to a parent `Selectable` to propagate its color transitions to child `Graphic` components.
 
 ```csharp
 // Child graphics are automatically discovered via Reset() in the Editor,
 // or you can assign them manually in the Inspector.
-```
-
-### SafeArea
-Attach the `SafeArea` component to a `RectTransform` to automatically fit the layout to the device's safe area.
-
-Deprecated with uGUI 2.6.0 or newer; use `UnityEngine.UI.SafeArea` instead.
-
-### SimpleGauge
-Add the `SimpleGauge` component to a `GameObject` that has a `MaskableGraphic` and control the fill via the `Value` property.
-
-Deprecated; use an Image with Type `Filled` and control `Image.fillAmount` instead. Add `WhiteSprite` if no Sprite asset is needed.
-
-```csharp
-using StandardUI;
-using UnityEngine;
-
-public class GaugeSample : MonoBehaviour
-{
-    [SerializeField] private SimpleGauge _gauge;
-
-    private void Update()
-    {
-        // Set gauge fill (0.0 to 1.0)
-        _gauge.Value = Mathf.PingPong(Time.time * 0.5f, 1f);
-    }
-}
 ```
 
 ### WhiteSprite
@@ -102,30 +79,11 @@ public class TouchSurfaceSample : MonoBehaviour
 
 ## API
 
-### EmptyGraphic
-
-| Member | Description |
-|--------|-------------|
-| `SetMaterialDirty()` | No-op override. |
-| `SetVerticesDirty()` | No-op override. |
-
 ### PropagationGraphic
 
 | Member | Description |
 |--------|-------------|
 | `CrossFadeColor(Color, float, bool, bool)` | Forwards the color transition to all assigned child `Graphic` components. |
-
-### SafeArea
-
-| Member | Description |
-|--------|-------------|
-| `Adjust()` | Applies the current safe area to this `RectTransform`'s anchors. |
-
-### SimpleGauge
-
-| Member | Description |
-|--------|-------------|
-| `Value` | Gets or sets the gauge fill (0.0 to 1.0). Setting this updates the `RectMask2D` padding. |
 
 ### SkewMeshEffect
 
