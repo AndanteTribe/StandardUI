@@ -12,6 +12,9 @@ namespace StandardUI
     /// <summary>
     /// Adjusts a RectTransform to match the device safe area.
     /// </summary>
+#if UGUI_2_6_OR_GREATER
+    [System.Obsolete("Use UnityEngine.UI.SafeArea instead (available in com.unity.ugui 2.6.0 or newer).")]
+#endif
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
     public sealed class SafeArea : MonoBehaviour

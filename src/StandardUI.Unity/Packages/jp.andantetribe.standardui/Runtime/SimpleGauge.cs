@@ -9,6 +9,7 @@ namespace StandardUI
     /// <summary>
     /// A simple and clean gauge display built on top of <see cref="RectMask2D"/>.
     /// </summary>
+    [Obsolete("Use WhiteSprite with an Image set to Type.Filled, and control Image.fillAmount instead of SimpleGauge.Value.")]
     [RequireComponent(typeof(MaskableGraphic))]
     public class SimpleGauge : RectMask2D
     {
