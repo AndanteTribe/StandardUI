@@ -9,6 +9,7 @@
 #endif
 #endif
 
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -88,11 +89,13 @@ namespace StandardUI
 
         // Only the transient Sprite is owned here, never Texture2D.whiteTexture.
         [UnityEditor.InitializeOnLoadMethod]
+        [ExcludeFromCodeCoverage]
         private static void RegisterSpriteCleanup()
         {
             UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += ClearWhiteSprite;
             UnityEditor.EditorApplication.quitting += ClearWhiteSprite;
 
+            [ExcludeFromCodeCoverage]
             static void ClearWhiteSprite()
             {
                 if (s_whiteSprite != null)
