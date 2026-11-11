@@ -5,7 +5,7 @@
     "name": "AndanteTribe",
     "url": "https://github.com/AndanteTribe"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "unity": "6000.6",
   "description": "Extra uGUI components and effects for Unity.",
   "license": "MIT",
